@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 import { useSelector, useDispatch } from 'react-redux';
+import { Alert } from 'react-native';
 import Background from '~/components/Background';
 
 import { Container, Logo, Form, FormInput, SubmitButton } from './styles';
@@ -14,7 +15,11 @@ export default function SignIn() {
   const loading = useSelector((state) => state.auth.loading);
 
   function handleSubmit() {
-    dispatch(signInRequest(email));
+    if (email !== '') {
+      dispatch(signInRequest(email));
+    } else {
+      Alert.alert('Atenção', 'Digite seu e-mail para continuar');
+    }
   }
 
   return (
@@ -30,6 +35,7 @@ export default function SignIn() {
             autoCapitalize="none"
             placeholder="Digite seu e-mail"
             returnKeyType="send"
+            onSubmitEditing={handleSubmit}
             value={email}
             onChangeText={setEmail}
           />

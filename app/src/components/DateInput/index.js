@@ -32,10 +32,10 @@ export default function DateInput({ date, onChange }) {
                 onChange(d);
               }
             }}
-            minimumDate={new Date()}
+            maximumDate={new Date()}
             minuteInterval={60}
             locale="pt"
-            mode="date"
+            mode="datetime"
           />
         </Picker>
       )}

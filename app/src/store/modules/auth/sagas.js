@@ -44,7 +44,7 @@ export function* signIn({ payload }) {
         type: expense.additionalInfo.type,
       };
 
-      expenses.push(item);
+      expenses.unshift(item);
     });
 
     yield put(expensesLogin(expenses));

@@ -1,11 +1,9 @@
-import React from 'react';
-
+import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { withNavigationFocus } from 'react-navigation';
-import { Alert } from 'react-native';
+import { Alert, Platform } from 'react-native';
 import {
   Container,
-  Title,
   ContainerDespesas,
   List,
   ContainerEmpty,
@@ -15,11 +13,12 @@ import Background from '~/components/Background';
 import Expense from '~/components/Expense';
 import { expensesDeleteRequest } from '~/store/modules/expense/actions';
 
-function Home() {
+function Home({ navigation }) {
   const dispatch = useDispatch();
   const expenses = useSelector((state) => state.expense.expenses);
   const loading = useSelector((state) => state.expense.loading);
   const token = useSelector((state) => state.auth.token);
+  const [device] = useState(Platform.OS);
 
   async function handleCancel(id) {
     dispatch(expensesDeleteRequest(id, token));
@@ -43,11 +42,13 @@ function Home() {
     );
   }
 
+  async function editExpense(id) {
+    navigation.navigate('Edit', { id });
+  }
+
   return (
     <Background>
       <Container>
-        <Title>Minhas Despesas</Title>
-
         <ContainerDespesas>
           <List
             data={expenses}
@@ -56,12 +57,15 @@ function Home() {
               <Expense
                 loading={loading}
                 onCancel={() => confirmCancel(item)}
+                onEdit={() => editExpense(item.id)}
                 expense={item}
               />
             )}
             ListEmptyComponent={
               <ContainerEmpty>
-                <TitleEmpty>Nenhuma despesa cadastrada</TitleEmpty>
+                <TitleEmpty param={device}>
+                  Nenhuma despesa cadastrada
+                </TitleEmpty>
               </ContainerEmpty>
             }
           />
@@ -70,5 +74,9 @@ function Home() {
     </Background>
   );
 }
+
+Home.navigationOptions = () => ({
+  title: 'Minhas Despesas',
+});
 
 export default withNavigationFocus(Home);

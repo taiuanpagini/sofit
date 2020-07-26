@@ -18,6 +18,22 @@ export default function expenses(state = INITIAL_STATE, action) {
         draft.expenses.unshift(expense);
         break;
       }
+      case '@expense/EXPENSES_UPDATE_REQUEST': {
+        draft.loading = true;
+        break;
+      }
+      case '@expense/EXPENSES_UPDATE_SUCCESS': {
+        const { expense } = action.payload;
+
+        const expensesOld = state.expenses;
+        const index = expensesOld.findIndex((x) => x.id === expense.id);
+        console.tron.log(expense);
+        if (index >= 0) {
+          draft.loading = false;
+          draft.expenses[index] = expense;
+        }
+        break;
+      }
       case '@expense/EXPENSES_DELETE_REQUEST': {
         draft.loading = true;
         break;

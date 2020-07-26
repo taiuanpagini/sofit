@@ -9,17 +9,20 @@ export const Container = styled.SafeAreaView`
 `;
 
 export const Title = styled.Text`
-  font-family: 'Exo';
-  font-size: 20px;
-  margin-top: 40px;
+  font-family: ${(props) => (props.param === 'android' ? 'Exo Bold' : 'Exo')};
+  color: #000;
+  font-size: 18;
+  font-weight: 600;
   text-align: center;
+  align-self: center;
+  margin-top: 10px;
 `;
 
 export const Form = styled.View`
   flex: 1;
   background: #fff;
   padding: 0 30px;
-  margin-top: 30px;
+  margin-top: 40px;
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
 `;

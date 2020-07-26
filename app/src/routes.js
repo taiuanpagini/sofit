@@ -1,17 +1,41 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, Platform } from 'react-native';
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import LinearGradient from 'react-native-linear-gradient';
+import { createStackNavigator } from 'react-navigation-stack';
 import SignIn from './pages/SignIn';
 import Home from './pages/Home';
 
-import New from './pages/New';
+import New from './pages/Expenses/New';
+import Edit from './pages/Expenses/Edit';
 
 import Profile from './pages/Profile';
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  iconTabRound: {
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    marginBottom: 20,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    elevation: 6,
+    shadowColor: '#9C27B0',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 5,
+  },
+});
 
 export default (isSigned = false) =>
   createAppContainer(
@@ -23,14 +47,36 @@ export default (isSigned = false) =>
         App: createBottomTabNavigator(
           {
             Dashboard: {
-              screen: Home,
+              screen: createStackNavigator(
+                {
+                  Home,
+                  Edit,
+                },
+                {
+                  defaultNavigationOptions: () => ({
+                    headerTransparent: false,
+                    headerStyle: {
+                      backgroundColor: '#C6D745',
+                    },
+                    headerTitleStyle: {
+                      fontFamily:
+                        Platform.OS === 'android' ? 'Exo Bold' : 'Exo',
+                      fontSize: 18,
+                      fontWeight: '600',
+                      textAlign: 'center',
+                    },
+                    headerTintColor: '#000',
+                    animationEnabled: false,
+                  }),
+                }
+              ),
             },
             New: {
               screen: New,
               navigationOptions: {
                 tabBarVisible: true,
                 tabBarLabel: ' ',
-                tabBarIcon: ({ tintColor }) => (
+                tabBarIcon: () => (
                   <View>
                     <LinearGradient
                       style={styles.iconTabRound}
@@ -50,7 +96,7 @@ export default (isSigned = false) =>
           },
           {
             defaultNavigationOptions: ({ navigation }) => ({
-              tabBarIcon: ({ focused, horizontal, tintColor }) => {
+              tabBarIcon: ({ tintColor }) => {
                 const { routeName } = navigation.state;
                 let iconName;
                 if (routeName === 'Dashboard') {
@@ -76,7 +122,7 @@ export default (isSigned = false) =>
                 marginTop: 10,
               },
               labelStyle: {
-                fontFamily: 'Exo',
+                fontFamily: Platform.OS === 'android' ? 'Exo Regular' : 'Exo',
                 letterSpacing: 1,
               },
             },
@@ -88,25 +134,3 @@ export default (isSigned = false) =>
       }
     )
   );
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  iconTabRound: {
-    width: 60,
-    height: 60,
-    borderRadius: 30,
-    marginBottom: 20,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    elevation: 6,
-    shadowColor: '#9C27B0',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 5,
-  },
-});

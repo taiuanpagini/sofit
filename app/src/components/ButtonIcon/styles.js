@@ -1,5 +1,5 @@
 import styled from 'styled-components/native';
-import {RectButton} from 'react-native-gesture-handler';
+import { RectButton } from 'react-native-gesture-handler';
 
 export const Container = styled(RectButton)`
   height: 50px;
@@ -16,5 +16,6 @@ export const Text = styled.Text`
   margin-left: 10px;
   font-weight: bold;
   font-size: 16px;
-  font-family: 'Exo';
+  font-family: ${(props) =>
+    props.param === 'android' ? 'Exo SemiBold' : 'Exo'};
 `;

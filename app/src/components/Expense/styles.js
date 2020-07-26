@@ -54,11 +54,16 @@ export const ContainerItens = styled.View`
 `;
 
 export const CancelButton = styled(RectButton)`
-  flex-direction: row;
-  align-items: center;
   background: #f64c75;
   border-radius: 4px;
   padding: 5px;
+`;
+
+export const EditButton = styled(RectButton)`
+  background: #3b9eff;
+  border-radius: 4px;
+  padding: 5px;
+  margin-right: 10px;
 `;
 
 export const TextButton = styled.Text`

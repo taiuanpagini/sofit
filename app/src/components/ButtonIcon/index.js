@@ -1,12 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { ActivityIndicator } from 'react-native';
+import { ActivityIndicator, Platform } from 'react-native';
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import { Container, Text } from './styles';
 
 export default function ButtonIcon({ children, loading, icon, ...rest }) {
+  const [device] = useState(Platform.OS);
   return (
     <Container {...rest}>
       {loading ? (
@@ -14,7 +15,7 @@ export default function ButtonIcon({ children, loading, icon, ...rest }) {
       ) : (
         <>
           <Icon name={icon} color="#FFF" size={20} />
-          <Text>{children}</Text>
+          <Text param={device}>{children}</Text>
         </>
       )}
     </Container>

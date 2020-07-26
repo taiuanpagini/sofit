@@ -4,13 +4,6 @@ export const Container = styled.SafeAreaView`
   flex: 1;
 `;
 
-export const Title = styled.Text`
-  font-family: 'Exo';
-  font-size: 20px;
-  margin-top: 40px;
-  text-align: center;
-`;
-
 export const ContainerDespesas = styled.View`
   flex: 1;
   background: #fff;
@@ -33,7 +26,8 @@ export const ContainerEmpty = styled.View`
 
 export const TitleEmpty = styled.Text`
   font-size: 16px;
-  font-family: 'Exo';
+  font-family: ${(props) =>
+    props.param === 'android' ? 'Exo Regular' : 'Exo'};
   color: #444;
   margin-left: 5px;
 `;

@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-
+import { Alert, Platform } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { withNavigationFocus } from 'react-navigation';
 import { format } from 'date-fns';
@@ -18,20 +18,34 @@ import PickerSelect from '~/components/PickerSelect';
 
 function New({ navigation }) {
   const dispatch = useDispatch();
+  const valueRef = useRef();
+
   const token = useSelector((state) => state.auth.token);
   const loading = useSelector((state) => state.expense.loading);
+
   const [item, setItem] = useState('');
   const [value, setValue] = useState('');
   const [type, setType] = useState('');
-  const valueRef = useRef();
   const [date, setDate] = useState(new Date());
+  const [device] = useState(Platform.OS);
 
   async function handleSubmit() {
-    const dateFormatted = format(date, 'yyyy-MM-dd');
+    if (item === '') {
+      Alert.alert('Atenção', 'Descrição da despesa é obrigatório.');
+      return;
+    }
 
-    setItem('');
-    setValue('');
-    setType('');
+    if (value === '') {
+      Alert.alert('Atenção', 'Valor da despesa é obrigatório.');
+      return;
+    }
+
+    if (type === '') {
+      Alert.alert('Atenção', 'Tipo da despesa é obrigatório.');
+      return;
+    }
+
+    const dateFormatted = format(date, 'yyyy-MM-dd HH:mm');
 
     dispatch(
       expensesRequest(dateFormatted, item, value, type, token, navigation)
@@ -41,7 +55,7 @@ function New({ navigation }) {
   return (
     <Background>
       <Container>
-        <Title>Cadastrar Despesa</Title>
+        <Title param={device}>Cadastrar Despesa</Title>
 
         <Form>
           <DateInput date={date} onChange={setDate} />
@@ -50,8 +64,6 @@ function New({ navigation }) {
             autoCorrect={false}
             autoCapitalize="none"
             placeholder="Digite sua despesa"
-            returnKeyType="next"
-            onSubmitEditing={() => valueRef.current.focus()}
             value={item}
             onChangeText={setItem}
           />
@@ -62,6 +74,7 @@ function New({ navigation }) {
             placeholder="Valor da despesa"
             ref={valueRef}
             returnKeyType="send"
+            onSubmitEditing={handleSubmit}
             value={value}
             onChangeText={setValue}
           />

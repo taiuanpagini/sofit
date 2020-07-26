@@ -14,10 +14,11 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function PickerSelect({ onValueChange }) {
+export default function PickerSelect({ value, onValueChange }) {
   return (
     <Container>
       <RNPickerSelect
+        value={value}
         onValueChange={(val) => onValueChange(val)}
         items={[
           { label: 'Abastecimento', value: 'Abastecimento', key: '1' },
